@@ -1,0 +1,127 @@
+﻿@model ClaimMonthlySystem.Models.User
+@{
+    ViewData["Title"] = "Register as Lecturer";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3 class="text-center mb-0">Register as Lecturer</h3>
+            </div>
+            <div class="card-body">
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        ❌ @ViewBag.Error
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                <form method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Name" class="form-label">Full Name *</label>
+                                <input asp-for="Name" class="form-control" required>
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Email" class="form-label">Email Address *</label>
+                                <input asp-for="Email" type="email" class="form-control" required>
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Username" class="form-label">Username *</label>
+                                <input asp-for="Username" class="form-control" required>
+                                <span asp-validation-for="Username" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Department" class="form-label">Department *</label>
+                                <input asp-for="Department" class="form-control" required>
+                                <span asp-validation-for="Department" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="Password" class="form-label">Password *</label>
+                                <input type="password" class="form-control" id="Password" name="Password" required>
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="confirmPassword" class="form-label">Confirm Password *</label>
+                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" asp-for="Role" value="Lecturer" />
+
+                    <div class="form-group mb-4">
+                        <div class="alert alert-info">
+                            <strong>Note:</strong> You are registering as a <strong>Lecturer</strong>.
+                            Manager accounts are not available for registration.
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <button type="submit" class="btn btn-primary w-100 btn-lg">Register as Lecturer</button>
+                    </div>
+
+                    <div class="text-center">
+                        <p>Already have an account? <a href="@Url.Action("Login")" class="text-decoration-none">Login here</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Demo Lecturer Account:</h5>
+                    <p class="mb-1"><strong>Username:</strong> lecturer1</p>
+                    <p class="mb-0"><strong>Password:</strong> pass123</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Password confirmation validation
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            var password = document.getElementById('Password').value;
+            var confirmPassword = this.value;
+
+            if (password !== confirmPassword) {
+                this.setCustomValidity('Passwords do not match');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+    </script>
+}
+
+@*                                     References
+Maniya, A., 2025. Generate HTML File using C#. [Online]
+Available at: https://www.c-sharpcorner.com/blogs/generate-html-file-from-code-behind-using-c-sharp
+W3schools, 2024. ASP.NET Web Pages - Tutorial. [Online]
+Available at: https://www.w3schools.com/asp/webpages_intro.asp
+W3schools, 2025. HTML Forms. [Online]
+Available at: https://www.w3schools.com/asp/webpages_forms.asp *@
+

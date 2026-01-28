@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Lecturer Login";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3 class="text-center mb-0">Lecturer Login</h3>
+            </div>
+            <div class="card-body">
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        ❌ @ViewBag.Error
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                <form method="post">
+                    <div class="form-group mb-3">
+                        <label for="username" class="form-label">Username:</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="password" class="form-label">Password:</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 btn-lg">Login as Lecturer</button>
+                </form>
+
+                <div class="text-center mt-3">
+                    <p>Don't have an account? <a href="@Url.Action("Register")" class="text-decoration-none">Register as Lecturer</a></p>
+                    <p class="mt-2">
+                        <small>
+                            Are you a manager? <a href="@Url.Action("ManagerLogin")" class="text-decoration-none">Login as Manager here</a>
+                        </small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@*                                     References
+Maniya, A., 2025. Generate HTML File using C#. [Online]
+Available at: https://www.c-sharpcorner.com/blogs/generate-html-file-from-code-behind-using-c-sharp
+W3schools, 2024. ASP.NET Web Pages - Tutorial. [Online]
+Available at: https://www.w3schools.com/asp/webpages_intro.asp
+W3schools, 2025. HTML Forms. [Online]
+Available at: https://www.w3schools.com/asp/webpages_forms.asp *@
+

@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4 mb-4">Welcome to Monthly Claims System</h1>
+    <p class="lead mb-5">Efficient claims management for lecturers and academic managers</p>
+
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title mb-4">Get Started</h3>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100 border-primary">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="card-title mb-0">👨‍🏫 For Lecturers</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Submit monthly claims, track status, and upload supporting documents.</p>
+                                    <div class="d-grid gap-2">
+                                        <a href="@Url.Action("Register")" class="btn btn-primary">Register as Lecturer</a>
+                                        <a href="@Url.Action("Login")" class="btn btn-outline-primary">Login as Lecturer</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100 border-success">
+                                <div class="card-header bg-success text-white">
+                                    <h5 class="card-title mb-0">👨‍💼 For Managers</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Review, verify, and approve claims from lecturers.</p>
+                                    <div class="d-grid gap-2">
+                                        <a href="@Url.Action("ManagerLogin")" class="btn btn-success">Login as Manager</a>
+                                    </div>
+                                    <small class="text-muted mt-2 d-block">
+                                        <strong>Manager Credentials:</strong><br>
+                                        Username: Jack<br>
+                                        Password: J1
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*                                     References
+Maniya, A., 2025. Generate HTML File using C#. [Online]
+Available at: https://www.c-sharpcorner.com/blogs/generate-html-file-from-code-behind-using-c-sharp
+W3schools, 2024. ASP.NET Web Pages - Tutorial. [Online]
+Available at: https://www.w3schools.com/asp/webpages_intro.asp
+W3schools, 2025. HTML Forms. [Online]
+Available at: https://www.w3schools.com/asp/webpages_forms.asp *@
+

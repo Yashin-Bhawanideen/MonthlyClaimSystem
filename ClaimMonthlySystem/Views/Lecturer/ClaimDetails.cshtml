@@ -1,0 +1,208 @@
+﻿@model ClaimMonthlySystem.Models.Claim
+@{
+    ViewData["Title"] = "Claim Details";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Claim Details</h2>
+    <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Back to My Claims</a>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Claim #@Model.Id</h4>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Submission Date:</strong>
+                        <p>@Model.SubmissionDate.ToString("dd/MM/yyyy HH:mm")</p>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Status:</strong>
+                        <p>
+                            <span class="badge @GetStatusBadgeClass(Model.Status)">
+                                @Model.Status
+                            </span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Hours Worked:</strong>
+                        <p>@Model.HoursWorked hours</p>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Hourly Rate:</strong>
+                        <p>R @Model.HourlyRate.ToString("N2")</p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <strong>Total Amount:</strong>
+                        <p class="h5 text-success">R @Model.TotalAmount.ToString("N2")</p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <strong>Additional Notes:</strong>
+                        <div class="border rounded p-3 bg-light">
+                            @if (!string.IsNullOrEmpty(Model.AdditionalNotes))
+                            {
+                                @Model.AdditionalNotes
+                            }
+                            else
+                            {
+                                <span class="text-muted">No additional notes provided</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <strong>Supporting Documents:</strong>
+                        @if (Model.Documents.Any())
+                        {
+                            <div class="mt-2">
+                                @foreach (var document in Model.Documents)
+                                {
+                                    <div class="card mb-2">
+                                        <div class="card-body py-2">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    @document.FileName
+                                                    <small class="text-muted ms-2">
+                                                        (Uploaded: @document.UploadDate.ToString("dd/MM/yyyy"))
+                                                    </small>
+                                                </div>
+                                                <a href="@Url.Action("ViewDocument", "Lecturer", new { claimId = Model.Id, documentId = document.Id })"
+                                                   class="btn btn-sm btn-outline-primary" target="_blank">
+                                                    View Document
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-muted mt-2">No supporting documents uploaded</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Claim Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <strong>Lecturer:</strong>
+                    <p>@Model.LecturerName</p>
+                </div>
+
+                <div class="mb-3">
+                    <strong>Claim ID:</strong>
+                    <p>@Model.Id</p>
+                </div>
+
+                <div class="mb-3">
+                    <strong>Submission Timeline:</strong>
+                    <p>Submitted @GetTimeAgo(Model.SubmissionDate)</p>
+                </div>
+
+                @if (Model.Status == ClaimStatus.Pending)
+                {
+                    <div class="alert alert-warning">
+                        <strong>Pending Approval</strong>
+                        <p class="mb-0 small">Your claim is waiting for manager approval.</p>
+                    </div>
+                }
+                else if (Model.Status == ClaimStatus.Approved)
+                {
+                    <div class="alert alert-success">
+                        <strong>Approved</strong>
+                        <p class="mb-0 small">Your claim has been approved and will be processed for payment.</p>
+                    </div>
+                }
+                else if (Model.Status == ClaimStatus.Rejected)
+                {
+                    <div class="alert alert-danger">
+                        <strong>Rejected</strong>
+                        <p class="mb-0 small">Your claim has been rejected. Please contact administration for more information.</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header bg-light">
+                <h6 class="mb-0">Quick Actions</h6>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="@Url.Action("SubmitClaim")" class="btn btn-primary">Submit New Claim</a>
+                    <a href="@Url.Action("Index")" class="btn btn-outline-secondary">View All Claims</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    public string GetStatusBadgeClass(ClaimStatus status)
+    {
+        return status switch
+        {
+            ClaimStatus.Pending => "bg-warning",
+            ClaimStatus.Approved => "bg-success",
+            ClaimStatus.Rejected => "bg-danger",
+            _ => "bg-secondary"
+        };
+    }
+
+    public string GetTimeAgo(DateTime date)
+    {
+        var timeSpan = DateTime.Now - date;
+
+        if (timeSpan.TotalDays >= 1)
+        {
+            var days = (int)timeSpan.TotalDays;
+            return $"{days} day{(days > 1 ? "s" : "")} ago";
+        }
+        else if (timeSpan.TotalHours >= 1)
+        {
+            var hours = (int)timeSpan.TotalHours;
+            return $"{hours} hour{(hours > 1 ? "s" : "")} ago";
+        }
+        else if (timeSpan.TotalMinutes >= 1)
+        {
+            var minutes = (int)timeSpan.TotalMinutes;
+            return $"{minutes} minute{(minutes > 1 ? "s" : "")} ago";
+        }
+        else
+        {
+            return "just now";
+        }
+    }
+}
+
+@*                                     References
+Maniya, A., 2025. Generate HTML File using C#. [Online]
+Available at: https://www.c-sharpcorner.com/blogs/generate-html-file-from-code-behind-using-c-sharp
+W3schools, 2024. ASP.NET Web Pages - Tutorial. [Online]
+Available at: https://www.w3schools.com/asp/webpages_intro.asp
+W3schools, 2025. HTML Forms. [Online]
+Available at: https://www.w3schools.com/asp/webpages_forms.asp *@
+

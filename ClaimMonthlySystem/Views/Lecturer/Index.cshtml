@@ -1,0 +1,80 @@
+﻿@model List<Claim>
+@{
+    ViewData["Title"] = "My Claims";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>My Claims</h2>
+    <a href="@Url.Action("SubmitClaim")" class="btn btn-success">Submit New Claim</a>
+</div>
+
+@if (Model.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Submission Date</th>
+                    <th>Hours Worked</th>
+                    <th>Hourly Rate</th>
+                    <th>Total Amount</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var claim in Model)
+                {
+                    <tr>
+                        <td>@claim.Id</td>
+                        <td>@claim.SubmissionDate.ToString("dd/MM/yyyy")</td>
+                        <td>@claim.HoursWorked</td>
+                        <td>R @claim.HourlyRate.ToString("N2")</td>
+                        <td>R @claim.TotalAmount.ToString("N2")</td>
+                        <td>
+                            <span class="badge @GetStatusBadgeClass(claim.Status)">
+                                @claim.Status
+                            </span>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("ClaimDetails", new { id = claim.Id })" class="btn btn-sm btn-info">View Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="alert alert-info text-center">
+        <div class="py-4">
+            <i class="fas fa-file-alt fa-3x text-muted mb-3"></i>
+            <h4>No Claims Submitted Yet</h4>
+            <p class="mb-3">You haven't submitted any claims yet.</p>
+            <a href="@Url.Action("SubmitClaim")" class="btn btn-primary">Submit Your First Claim</a>
+        </div>
+    </div>
+}
+
+@functions {
+    public string GetStatusBadgeClass(ClaimStatus status)
+    {
+        return status switch
+        {
+            ClaimStatus.Pending => "bg-warning",
+            ClaimStatus.Approved => "bg-success",
+            ClaimStatus.Rejected => "bg-danger",
+            _ => "bg-secondary"
+        };
+    }
+}
+@*                                     References
+Maniya, A., 2025. Generate HTML File using C#. [Online]
+Available at: https://www.c-sharpcorner.com/blogs/generate-html-file-from-code-behind-using-c-sharp
+W3schools, 2024. ASP.NET Web Pages - Tutorial. [Online]
+Available at: https://www.w3schools.com/asp/webpages_intro.asp
+W3schools, 2025. HTML Forms. [Online]
+Available at: https://www.w3schools.com/asp/webpages_forms.asp *@
+
